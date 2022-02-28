@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS department;
 
 
-
 -- Table `department`
 CREATE TABLE department (
   id INTEGER NOT NULL AUTO_INCREMENT,
