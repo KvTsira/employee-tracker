@@ -29,7 +29,6 @@ function start() {
                 'Remove employee', 
                 'Remove role', 
                 'Remove Department', 
-                'Update Employee Role',
                 'Quit'
             ],
         }
@@ -47,7 +46,7 @@ function start() {
                     addEmployee();
                     break;
                 case 'Update an employee role':
-                    updateEmployeeRole();
+                    updateRole();
                     break;
                 case 'View all employees':
                     viewEmployees();
@@ -71,9 +70,6 @@ function start() {
                     break;
                 case 'Remove Department':
                     removeDepartment();
-                    break;
-                case 'Update Employee Role':
-                    updateRole();
                     break;
                 case 'Quit':
                     Quit();
