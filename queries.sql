@@ -9,3 +9,10 @@ LEFT JOIN role r ON e.role_id = r.id
 LEFT JOIN department d ON r.department_id = d.id;
 
 
+-- view employees by manager
+SELECT e.* , m.first_name
+from employee e
+left join employee m on m.id=e.manager_id
+where m.first_name like '%jenine%';
+
+

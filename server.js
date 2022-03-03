@@ -29,13 +29,14 @@ function start() {
                 'Remove employee', 
                 'Remove role', 
                 'Remove Department', 
+                'Update Employee Role',
                 'Quit'
             ],
         }
     ]
     )
         .then((answer) => {
-            switch (answer.choice) {
+            switch (answer.start) {
                 case 'Add department':
                     addDepartment();
                     break;
@@ -64,11 +65,15 @@ function start() {
                     viewBudgetByDepartment();
                     break;
                 case 'Remove employee':
-                    removeEmployee;
+                    removeEmployee();
                     break;
                 case 'Remove role':
                     break;
                 case 'Remove Department':
+                    removeDepartment();
+                    break;
+                case 'Update Employee Role':
+                    updateRole();
                     break;
                 case 'Quit':
                     Quit();
@@ -81,7 +86,7 @@ function start() {
 };
 
 function viewEmployees() {
-    const sql = "SELECT * FROM employee";
+    const sql = "SELECT e.id, e.first_name, e.last_name, r.title, r.salary, CONCAT( m.first_name, ' ', m.last_name) AS Manager  FROM employee e LEFT JOIN role r ON r.id=e.role_id LEFT JOIN employee m ON m.id=e.manager_id;";
     connection.query(sql, function(err, res) {
       if (err) throw err;
       console.log("Viewing All Employees");
@@ -140,6 +145,7 @@ function viewRoles() {
 
 
 function viewDepartments() {
+    console.log("Viewing All Departments");
     const sql = "SELECT * FROM department";
     connection.query(sql, function(err, res) {
         if (err) throw err;
@@ -441,8 +447,60 @@ function removeDepartment() {
     });
 };
 
+
+function updateRole() {
+    const qry=`SELECT CONCAT(first_name, " ", last_name) AS EmployeeName FROM employee;`;
+    connection.query(qry, (err, res)  => {
+            if (err) throw err;
+            // loop to go through names and push to array for selection
+            let employeeArray = [];
+            res.forEach((employee) => {
+                employeeArray.push(employee.EmployeeName);
+            });
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "selectedEmployee",
+                    message: "Select the Employee you want to change the role for",
+                    choices: employeeArray
+                }
+            ])
+            .then((res) => {
+                let employee = res.selectedEmployee;
+                const qry=`SELECT title FROM role`;
+                connection.query(qry, (err, res) => {
+                    if (err) throw err;
+                    // loop to go through rolls and push to array for selection 
+                    let roleArray = [];
+                    res.forEach((role) => {
+                        roleArray.push(role.title);
+                    });
+                inquirer.prompt([
+                    {
+                        type: "list",
+                        name: "roleUpdate",
+                        message: "What is the new role for this employee?",
+                        choices: roleArray
+                    }
+                ])
+    
+                .then((res) => {
+                    let roleName = res.roleUpdate;
+                    console.log('selected role:', roleName);
+                    connection.query(`UPDATE employee SET role_id=(SELECT id FROM role WHERE title='${roleName}') WHERE CONCAT(first_name,' ', last_name) = '${employee}'; `,
+                    (err, res) => {
+                        if (err) throw err;
+                        console.log(`Employee role updated!`);
+                        viewEmployees();
+                    });
+                });
+            });
+        });
+    });
+    }
+
 function Quit() {
-    console.log('Goodbye!');
+    console.log('Good Bye!');
     process.exit();
 }
 
