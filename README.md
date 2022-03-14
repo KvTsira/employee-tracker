@@ -40,5 +40,5 @@ A CLI application that responds to user prompts regarding employee data by acces
 
 
 # Project Demo
-[Employee Tracker Demo 2 video](https://www.youtube.com/watch?v=-N7Ju_wlxZ8)
-[Employee Tracker Demo video](https://www.youtube.com/watch?v=fpUu-ByYWwA)
+* [Employee Tracker Demo 2 video](https://www.youtube.com/watch?v=-N7Ju_wlxZ8)
+* [Employee Tracker Demo video](https://www.youtube.com/watch?v=fpUu-ByYWwA)
