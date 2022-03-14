@@ -413,12 +413,12 @@ function removeEmployee() {
 
   //Remove Depratmnet
 function removeDepartment() {
-    const qry = `SELECT department.id, department.department_name FROM department`;
+    const qry = `SELECT department.id, department.name FROM department`;
     connection.query(qry, (error, response) => {
         if(error) throw error;
         let departmentArray = [];
         response.forEach((department) => {
-            departmentArray.push(department.department_name);
+            departmentArray.push(department.name);
         });
         inquirer.prompt([{
             name: "selectedDepartment",
